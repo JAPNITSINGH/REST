@@ -13,7 +13,7 @@ import javax.ws.rs.core.MediaType;
 // http://localhost:8980/REST_Demo/webapi/menuitem
 @Path("menuitem")
 public class MenuItemResource {
-	List<MenuItem> menu = new ArrayList<MenuItem>();
+	static List<MenuItem> menu = new ArrayList<MenuItem>();
 	@GET
 	@Produces(MediaType.APPLICATION_XML) //@Produces(MediaType.APPLICATION_JSON) use this for JSON
 	public List<MenuItem> getMenuItem()
@@ -44,9 +44,9 @@ public class MenuItemResource {
 //	 http://localhost:8980/REST_Demo/webapi/menuitem/addMenuItem
 	@POST
 	@Produces(MediaType.APPLICATION_XML)
-	@Consumes(MediaType.APPLICATION_XML)
+	//@Consumes(MediaType.APPLICATION_XML)
 	@Path("addMenuItem")
-	public void addMenuItem()
+	public List<MenuItem> addMenuItem()
 	{
 		MenuItem mi = new MenuItem();
 		//mi.setCost(cost);
@@ -54,13 +54,15 @@ public class MenuItemResource {
 		mi.setItemName("New Item");
 		menu.add(mi);
 		System.out.println("New Item Added");
+		return menu;
 	}
 	
+	 //http://localhost:8980/REST_Demo/webapi/menuitem/updateMenuItem
 	@POST
 	@Produces(MediaType.APPLICATION_XML)
-	@Consumes(MediaType.APPLICATION_XML)
+//	@Consumes(MediaType.APPLICATION_XML)
 	@Path("updateMenuItem")
-	public void updateMenuItem()
+	public List<MenuItem> updateMenuItem()
 	{
 		MenuItem old_mi = new MenuItem();
 		old_mi.setCost(100);
@@ -74,27 +76,40 @@ public class MenuItemResource {
 					}
 		}
 		//menu.add(mi);
-		System.out.println("New Item Added");
+		System.out.println("New Item Updated");
+		return menu;
 	}
 	
+	
+	//http://localhost:8980/REST_Demo/webapi/menuitem/deleteMenuItem
 	@POST
-	@Produces(MediaType.APPLICATION_XML)
-	@Consumes(MediaType.APPLICATION_XML)
-	@Path("updateMenuItem")
-	public void deleteMenuItem()
+//	@Produces(MediaType.APPLICATION_XML)
+//	@Consumes(MediaType.APPLICATION_XML)
+	@Path("deleteMenuItem")
+	public List<MenuItem> deleteMenuItem()
 	{
 		MenuItem old_mi = new MenuItem();
 		//old_mi.setCost(100);
-		old_mi.setItemName("Butter Naan");
-		for(MenuItem m : menu)
-		{
-			if(m.getItemName().equals(old_mi.getItemName()))
-					{
-						menu.remove(m);
-					}
-		}
+		old_mi.setItemName("Replaced_Name");
+//		for(MenuItem m : menu)
+//		{
+//			if(m.getItemName().equals(old_mi.getItemName()))
+//					{
+//						menu.remove(m);
+//						System.out.println("Deleted this one");
+//					}
+//		}
 		//menu.add(mi);
-		System.out.println("New Item Added");
+		
+		for(int i = 0 ; i < menu.size() ; i++)
+		{
+			if(menu.get(i).getItemName().equals(old_mi.getItemName()))
+			{
+				menu.remove(i);
+			}
+		}
+		System.out.println("New Item Deleted");
+		return menu;
 	}
 	
 	
